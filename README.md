@@ -1,5 +1,7 @@
 # Norns shield case extras
 
+![Complete device](./images/norns-complete.jpg)
+
 ## Screen support
 
 ![Screen support block](./images/support.png)
