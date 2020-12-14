@@ -2,15 +2,17 @@
 
 ## Screen support
 
+![Screen support block](./images/support.png)
+
 These help to keep the screen horizontal and in place. They can be attached
 between the screen and shield PCBs using a small piece of double-sided tape on
 each side.
 
 ## Top plate
 
-![./images/plate-top.png](Top view)
+![Top view](./images/plate-top.png)
 
-![./images/plate-bottom.png](Bottom view)
+![Bottom view](./images/plate-bottom.png)
 
 This builds the outline and screw holes from a projection of the case file,
 so you'll need to download that and save it here as `norns-case.stl`.
