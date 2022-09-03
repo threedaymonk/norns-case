@@ -84,8 +84,8 @@ module grill(length, width, pitch, count, h = 100) {
 
 screw_mounts = [
   // x, y, height above inner base
-  [7.10, 7.10, 3.0],
-  [85.5, 7.10, 3.0],
+  [7.10, 7.10, 1.7],
+  [85.5, 7.10, 1.7],
   [27.2, 80.3, 4.3],
   [85.5, 80.3, 4.3],
 ];
