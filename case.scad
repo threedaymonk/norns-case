@@ -13,18 +13,22 @@ module rounded_cube(size, r = 1, center = false) {
   }
 }
 
-module rounded_bottom_cube(size, r = 1, center = false) {
+module rounded_bottom_cube(size, r = 1, center = false, square_off = 0) {
   x = size[0]; y = size[1] ? size[1] : x; z = size[2] ? size[2] : x;
   if (center) {
     hull() for (i = [-1, 1], j = [-1, 1]) {
-      translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * -1])
-        sphere(r = r);
+      translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * -1]) {
+        intersection() {
+          cube(r * 2, center = true);
+          translate([0, 0, -square_off]) sphere(r = r);
+        }
+      }
       translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * 1])
         cylinder(r = r, h = 2 * r, center = true);
     }
   } else {
     translate([x/2, y/2, z/2])
-      rounded_bottom_cube([x, y, z], r, true);
+      rounded_bottom_cube([x, y, z], r, true, square_off);
   }
 }
 
@@ -39,7 +43,8 @@ module shell() {
   difference() {
     rounded_bottom_cube(
       [size_x, size_y, size_z],
-      r = corner_r
+      r = corner_r,
+      square_off = 1
     );
     translate([wall_thickness, wall_thickness, base_thickness])
       rounded_bottom_cube(
