@@ -1,36 +1,7 @@
 $fs = $preview ? 1 : 0.1;
-$fa = $preview ? 3 : 0.1;
+$fa = $preview ? 3 : 1;
 
-module rounded_cube(size, r = 1, center = false) {
-  x = size[0]; y = size[1] ? size[1] : x; z = size[2] ? size[2] : x;
-  if (center) {
-    hull() for (i = [-1, 1], j = [-1, 1], k = [-1, 1])
-        translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * k])
-          sphere(r = r);
-  } else {
-    translate([x/2, y/2, z/2])
-      rounded_cube([x, y, z], r, true);
-  }
-}
-
-module rounded_bottom_cube(size, r = 1, center = false, square_off = 0) {
-  x = size[0]; y = size[1] ? size[1] : x; z = size[2] ? size[2] : x;
-  if (center) {
-    hull() for (i = [-1, 1], j = [-1, 1]) {
-      translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * -1]) {
-        intersection() {
-          cube(r * 2, center = true);
-          translate([0, 0, -square_off]) sphere(r = r);
-        }
-      }
-      translate([(x/2 - r) * i, (y/2 - r) * j, (z/2 - r) * 1])
-        cylinder(r = r, h = 2 * r, center = true);
-    }
-  } else {
-    translate([x/2, y/2, z/2])
-      rounded_bottom_cube([x, y, z], r, true, square_off);
-  }
-}
+include <lib/rounded.scad>
 
 corner_r = 6;
 base_thickness = 3.3;
