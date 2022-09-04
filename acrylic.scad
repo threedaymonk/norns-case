@@ -24,4 +24,7 @@ difference() {
   for (screw_mount = screw_mounts)
     translate([screw_mount[0], size_y - screw_mount[1]])
       circle(d = screw_hole_d);
+
+  translate([sockets[0][0], kby_top - 3/5]) rotate(-30) circle(d = 5, $fn = 3);
+  translate([sockets[1][0], kby_top + 3/5]) rotate(30) circle(d = 5, $fn = 3);
 }
