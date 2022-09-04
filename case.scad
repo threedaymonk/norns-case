@@ -71,7 +71,7 @@ module negatives() {
   foot_d = 10.5;
   foot_x = 10.9;
   foot_y = 14.4;
-  foot_depth = 2;
+  foot_depth = 1.6;
   feet = [
     [foot_x, foot_y],
     [size_x - foot_x, foot_y],
