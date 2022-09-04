@@ -88,6 +88,13 @@ module negatives() {
   translate([35.5, size_y, 22.5]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
   translate([48, size_y, 22.5]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
 
+  // Labels
+  translate([35.5, size_y - 0.5, 30]) rotate([-90, 180, 0]) linear_extrude(10)
+    text("IN", size = 4, halign = "center", font = "Liberation Sans:style=Bold");
+  translate([48, size_y - 0.5, 30]) rotate([-90, 180, 0]) linear_extrude(10)
+    text("OUT", size = 4, halign = "center", font = "Liberation Sans:style=Bold");
+
+
   // Power in
   translate([72.1, size_y - 10, 6.9]) rounded_cube([12.6, 20, 7.5], r = 1);
 
