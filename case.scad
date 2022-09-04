@@ -52,10 +52,10 @@ module negatives() {
   translate([size_x / 2, size_y / 2, -1])
     grill(length = 38, width = 2.4, pitch = 3.975, count = 9, h=10);
 
-  // USB
-  translate([-10, 29.7, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
-  translate([-10, 47.7, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
-  translate([-10, 66.2, 9.4]) rounded_cube([20, 16.5, 14.4], r = 1);
+  // USB and network
+  translate([-10, 28.5, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
+  translate([-10, 46.5, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
+  translate([-10, 65.0, 9.4]) rounded_cube([20, 16.5, 14.4], r = 1);
 
   // Micro SD
   translate([size_x - 6.2, 48.5, -10]) rounded_cube([20, 15.4, 18.4], r = 1);
