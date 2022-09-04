@@ -1,18 +1,20 @@
-SOURCES = $(wildcard *.scad)
-OUTPUTS = $(patsubst %.scad,%.stl,$(SOURCES))
+OUTPUTS = case.stl top-plate.stl acrylic.svg
 
 .PHONY: all clean
 
 all: $(OUTPUTS)
 
-norns-case.stl:
-	@echo "Download the case STL by JHC from this thread and save it here as norns-case.stl"
-	@echo "https://llllllll.co/t/norns-shield-case-designs/30347/224"
-	@echo
-	@false
-
-%.stl: %.scad norns-case.stl
+%.stl: %.scad
 	openscad -o $@ $<
+
+%.svg: %.scad
+	openscad -o $@ $<
+
+top-plate.stl: top-plate.scad constants.scad
+
+case.stl: case.scad rounded.scad constants.scad
+
+acrylic.svg: acrylic.scad constants.scad
 
 clean:
 	rm -f $(OUTPUTS)

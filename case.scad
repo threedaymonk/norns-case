@@ -1,14 +1,5 @@
-$fs = $preview ? 1 : 0.1;
-$fa = $preview ? 3 : 1;
-
-include <lib/rounded.scad>
-
-corner_r = 6;
-base_thickness = 3.3;
-wall_thickness = 2.1;
-size_x = 92.5;
-size_y = 87.5;
-size_z = 40.05;
+include <rounded.scad>
+include <constants.scad>
 
 module shell() {
   difference() {
@@ -17,36 +8,29 @@ module shell() {
       r = corner_r,
       square_off = 1
     );
-    translate([wall_thickness, wall_thickness, base_thickness])
+    translate([wall_th, wall_th, base_th])
       rounded_bottom_cube(
-        [size_x - 2 * wall_thickness,
-         size_y - 2 * wall_thickness,
+        [size_x - 2 * wall_th,
+         size_y - 2 * wall_th,
          size_z],
-        r = corner_r - wall_thickness
+        r = corner_r - wall_th
       );
   }
 }
 
 module screw_boss_neg(thickness) {
-  head_d = 5;
-  shaft_d = 2.6;
-  head_depth = 2;
-
   translate([0, 0, -1]) {
-    cylinder(d = head_d, h = head_depth + 1);
-    cylinder(d = shaft_d, h = thickness + 2);
+    cylinder(d = screw_head_d, h = screw_head_depth + 1);
+    cylinder(d = screw_hole_d, h = thickness + 2);
   }
 }
 
 module screw_boss_pos(thickness, h) {
-  inner_d = 4;
-  outer_d = 6;
-
   translate([0, 0, thickness - 1])
     linear_extrude(height = 1 + h)
       difference() {
-        circle(d = outer_d);
-        circle(d = inner_d);
+        circle(d = screw_boss_outer_d);
+        circle(d = screw_boss_inner_d);
       }
 }
 
@@ -58,19 +42,11 @@ module grill(length, width, pitch, count, h = 100) {
         cylinder(d = width, h = h);
 }
 
-screw_mounts = [
-  // x, y, height above inner base
-  [7.10, 7.10, 1.7],
-  [85.5, 7.10, 1.7],
-  [27.2, 80.3, 4.3],
-  [85.5, 80.3, 4.3],
-];
-
 module negatives() {
   // Screw holes
   for (screw_mount = screw_mounts)
     translate([screw_mount[0], screw_mount[1], 0])
-      screw_boss_neg(thickness = base_thickness);
+      screw_boss_neg(thickness = base_th);
 
   // Grill
   translate([size_x / 2, size_y / 2, -1])
@@ -85,8 +61,8 @@ module negatives() {
   translate([size_x - 6.2, 48.5, -10]) rounded_cube([20, 15.4, 18.3], r = 1);
 
   // Sockets
-  translate([35.5, size_y, 22.5]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
-  translate([48, size_y, 22.5]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
+  for(xz = sockets)
+    translate([xz[0], size_y, xz[1]]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
 
   // Power in
   translate([72.1, size_y - 10, 6.9]) rounded_cube([12.6, 20, 7.5], r = 1);
@@ -107,14 +83,14 @@ module negatives() {
       cylinder(d = foot_d, h = foot_depth + 1);
 
   // Blind connectors
-  translate([31, size_y - wall_thickness - 1, 8]) cube([36, 1.5, 9]);
+  translate([31, size_y - wall_th - 1, 8]) cube([36, 1.5, 9]);
 }
 
 module positives() {
   // Screw bosses
   for (screw_mount = screw_mounts)
     translate([screw_mount[0], screw_mount[1], 0])
-      screw_boss_pos(thickness = base_thickness, h = screw_mount[2]);
+      screw_boss_pos(thickness = base_th, h = screw_mount[2]);
 }
 
 difference() {
