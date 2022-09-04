@@ -53,19 +53,19 @@ module negatives() {
     grill(length = 38, width = 2.4, pitch = 3.975, count = 9, h=10);
 
   // USB
-  translate([-10, 29.7, 9.5]) rounded_cube([20, 15, 17.3], r = 1);
-  translate([-10, 47.7, 9.5]) rounded_cube([20, 15, 17.3], r = 1);
-  translate([-10, 66.2, 9.5]) rounded_cube([20, 16.5, 14.3], r = 1);
+  translate([-10, 29.7, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
+  translate([-10, 47.7, 9.4]) rounded_cube([20, 15, 17.4], r = 1);
+  translate([-10, 66.2, 9.4]) rounded_cube([20, 16.5, 14.4], r = 1);
 
   // Micro SD
-  translate([size_x - 6.2, 48.5, -10]) rounded_cube([20, 15.4, 18.3], r = 1);
+  translate([size_x - 6.2, 48.5, -10]) rounded_cube([20, 15.4, 18.4], r = 1);
 
   // Sockets
   for(xz = sockets)
     translate([xz[0], size_y, xz[1]]) rotate([90, 0, 0]) cylinder(d = 8, h = 20, center = true);
 
   // Power in
-  translate([72.1, size_y - 10, 6.9]) rounded_cube([12.6, 20, 7.5], r = 1);
+  translate([72.1, size_y - 10, 6.8]) rounded_cube([12.6, 20, 7.6], r = 1);
 
   // Feet
   foot_d = 10.5;
@@ -83,7 +83,7 @@ module negatives() {
       cylinder(d = foot_d, h = foot_depth + 1);
 
   // Blind connectors
-  translate([31, size_y - wall_th - 1, 8]) cube([36, 1.5, 9]);
+  translate([31, size_y - wall_th - 1, 8]) cube([36, 1 + wall_th - 1.2, 9]);
 }
 
 module positives() {
