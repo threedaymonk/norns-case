@@ -12,7 +12,7 @@ corner_r = 6;
 wall_th = 2;
 base_th = 3.2;
 
-screw_hole_d = 2.6;
+screw_hole_d = 3;
 screw_head_d = 5.5;
 screw_head_depth = 2;
 screw_boss_inner_d = 4;
