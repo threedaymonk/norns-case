@@ -27,7 +27,7 @@ screw_mounts = [
 // because the top is printed upside down
 //
 kby_top = 12.8;
-kby_bottom = size_y - kby_top;
+kby_bottom = kby_top + 62.2;
 buttons = [
   [61.1, kby_top],
   [15.2, kby_bottom],
