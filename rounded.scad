@@ -1,3 +1,15 @@
+module rounded_square(size = [1, 1], r = 0.5, center = false) {
+	size = (size[0] == undef) ? [size, size] : size;
+  sx = size[0]; sy = size[1];
+
+	shift = (center == false) ? [r, r] : [r - sx/2, r - sy/2];
+
+	translate(shift) minkowski() {
+    square([sx - r*2, sy - r*2]);
+    circle(r = r);
+  }
+}
+
 module rounded_cube(size = [1, 1, 1], r = 0.5, center = false) {
 	size = (size[0] == undef) ? [size, size, size] : size;
   sx = size[0]; sy = size[1]; sz = size[2];

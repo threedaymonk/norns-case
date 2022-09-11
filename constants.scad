@@ -1,6 +1,8 @@
 $fs = $preview ? 1 : 0.1;
 $fa = $preview ? 3 : 2;
 
+layer = 0.2;
+
 size_x = 92.5;
 size_y = 87.5;
 size_z = 40.0;

@@ -1,27 +1,33 @@
 include <constants.scad>;
+include <rounded.scad>;
 
 // fudge amount to overlap solids to make the model manifold
 $e = 0.001;
 
 // Diameter of push button aperture
-// Actual diameter is about 7.5;
-button_d = 9;
+// Actual diameter is about 7.5, but we need to allow for paint.
+button_d = 8.5;
 
 // Diameter of knob aperture
-// Actual diameter is about 11.5mm
-knob_d = 13;
+knob_d = 10;
 
 // Thickness of top plate
-top_th = 1.4;
+top_th = 3;
+
+// Minimum thickness around glazing
+min_th = 1;
 
 // window size
-// calculated using actual position of screen; win_d allows
+// calculated using actual position of screen; win_margin allows
 // a larger gap around the OLED itself to make the screen visible off-axis.
-win_d = 2;
-win_x = 14 - win_d;
-win_y = 27 - win_d;
-win_sx = 66 + 2 * win_d;
-win_sy = 33 + 2 * win_d;
+win_cx = 47;
+win_cy = 43.5;
+win_margin = 3;
+win_sx = 66 + 2 * win_margin;
+win_sy = 33 + 2 * win_margin;
+
+glass_th = 3;
+glass_margin = 3;
 
 // vertical flat portion of window before chamfer
 win_flat = 1;
@@ -47,9 +53,13 @@ module plate() {
       for (screw_mount = screw_mounts)
         translate([screw_mount[0], size_y - screw_mount[1]])
           circle(d = screw_hole_d);
+
+      translate([win_cx, win_cy]) rounded_square([win_sx, win_sy], 2, center =true);
     }
   }
+}
 
+module stabilizers() {
   translate([(size_x - stab_l) / 2, 0, 0]) {
     translate([0, wall_th, 0])
       cube([stab_l, wall_th, wall_th + top_th]);
@@ -61,6 +71,39 @@ module plate() {
       cube([wall_th, stab_l, wall_th + top_th]);
     translate([size_x - wall_th * 2, 0, 0])
       cube([wall_th, stab_l, wall_th + top_th]);
+  }
+}
+
+module clip(height, width = 5, gauge = 1, pos = true) {
+  alpha = gauge / 2;
+  if (pos) {
+    translate([-width / 2, -gauge, -$e])
+      rotate([90, 0, 90])
+        linear_extrude(height = width)
+          polygon([
+            [0, 0],
+            [0, height + gauge + $e],
+            [gauge, height + gauge + $e],
+            [2 * gauge, height + $e],
+            [gauge, height - alpha + $e],
+            [gauge, 0]
+          ]);
+  } else {
+    translate([0, -gauge/2, 0])
+      linear_extrude(height = 2 * height)
+        difference() {
+          square([width + 2*gauge, 3*gauge], center = true);
+          square([width, gauge], center = true);
+        }
+  }
+}
+
+module clips(pos) {
+  for (kx = [-1, 1], ky = [-1, 1]) {
+    translate([win_cx + kx * (win_sx / 2 + glass_margin),
+               win_cy + ky * (win_sy / 2 - 3),
+               min_th])
+      rotate([0, 0, kx * 90]) clip(glass_th, pos = pos);
   }
 }
 
@@ -92,7 +135,36 @@ module window() {
         cube([win_sx, win_sy, top_th + $e * 2]);
 }
 
-difference() {
-  plate();
-  window();
+module glass() {
+  translate([win_cx, win_cy, min_th])
+    
+    linear_extrude(height = top_th)
+      square([win_sx + glass_margin * 2, win_sy + glass_margin * 2], center = true);
 }
+
+module triangle(size) {
+  scale([size / 5, size / 5])
+    translate([0, -3/5])
+      rotate(-30)
+        circle(d = 5, $fn = 3);
+}
+
+module arrows() {
+  translate([0, 0, -$e]) {
+    linear_extrude(layer * 2) {
+      translate([sockets[0][0], kby_top]) triangle(7);
+      translate([sockets[1][0], kby_top]) rotate(180) triangle(7);
+    }
+  }
+}
+
+difference() {
+  union() {
+    plate();
+    stabilizers();
+  }
+  glass();
+  arrows();
+  clips(pos=false);
+}
+clips(pos=true);
