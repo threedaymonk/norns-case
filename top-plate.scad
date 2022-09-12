@@ -110,27 +110,10 @@ module glass() {
       square([win_sx + glass_margin_x * 2, win_sy + glass_margin_y * 2], center = true);
 }
 
-module triangle(size) {
-  scale([size / 5, size / 5])
-    translate([0, -3/5])
-      rotate(-30)
-        circle(d = 5, $fn = 3);
-}
-
-module arrows() {
-  translate([0, 0, -$e]) {
-    linear_extrude(layer * 2) {
-      translate([sockets[0][0], kby_top]) triangle(7);
-      translate([sockets[1][0], kby_top]) rotate(180) triangle(7);
-    }
-  }
-}
-
 difference() {
   union() {
     plate();
     stabilizers();
   }
   glass();
-  arrows();
 }
