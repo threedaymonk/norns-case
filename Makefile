@@ -1,4 +1,6 @@
-OUTPUTS = case.stl top-plate.stl
+MAKEFLAGS += -j4
+
+OUTPUTS = case.stl top-plate.stl knob.stl
 
 .PHONY: all clean
 
