@@ -27,7 +27,8 @@ win_sx = 66 + 2 * win_margin;
 win_sy = 33 + 2 * win_margin;
 
 glass_th = 3;
-glass_margin = 3;
+glass_margin_x = 5.5;
+glass_margin_y = 3;
 
 // vertical flat portion of window before chamfer
 win_flat = 1;
@@ -74,39 +75,6 @@ module stabilizers() {
   }
 }
 
-module clip(height, width = 5, gauge = 1, pos = true) {
-  alpha = gauge / 2;
-  if (pos) {
-    translate([-width / 2, -gauge, -$e])
-      rotate([90, 0, 90])
-        linear_extrude(height = width)
-          polygon([
-            [0, 0],
-            [0, height + gauge + $e],
-            [gauge, height + gauge + $e],
-            [2 * gauge, height + $e],
-            [gauge, height - alpha + $e],
-            [gauge, 0]
-          ]);
-  } else {
-    translate([0, -gauge/2, 0])
-      linear_extrude(height = 2 * height)
-        difference() {
-          square([width + 2*gauge, 3*gauge], center = true);
-          square([width, gauge], center = true);
-        }
-  }
-}
-
-module clips(pos) {
-  for (kx = [-1, 1], ky = [-1, 1]) {
-    translate([win_cx + kx * (win_sx / 2 + glass_margin),
-               win_cy + ky * (win_sy / 2 - 3),
-               min_th])
-      rotate([0, 0, kx * 90]) clip(glass_th, pos = pos);
-  }
-}
-
 module window() {
   z0 = -$e;
   z1 = top_th - win_flat;
@@ -139,7 +107,7 @@ module glass() {
   translate([win_cx, win_cy, min_th])
     
     linear_extrude(height = top_th)
-      square([win_sx + glass_margin * 2, win_sy + glass_margin * 2], center = true);
+      square([win_sx + glass_margin_x * 2, win_sy + glass_margin_y * 2], center = true);
 }
 
 module triangle(size) {
@@ -165,6 +133,4 @@ difference() {
   }
   glass();
   arrows();
-  clips(pos=false);
 }
-clips(pos=true);
