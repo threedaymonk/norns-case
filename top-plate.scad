@@ -15,7 +15,7 @@ knob_d = 10;
 top_th = 3;
 
 // Minimum thickness around glazing
-min_th = 1;
+min_th = 0.8;
 
 // window size
 // calculated using actual position of screen; win_margin allows
